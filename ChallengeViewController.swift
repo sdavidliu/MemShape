@@ -12,7 +12,7 @@ import SendGrid
 class ChallengeViewController: UIViewController, UITextViewDelegate {
 
     @IBOutlet var textView: UITextView!
-    private var SG_API_KEY = "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"
+    private var SG_API_KEY = "API_KEY"
     private var name = ""
     private var emailAddress = ""
     private var highScore = ""
