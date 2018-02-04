@@ -40,10 +40,28 @@ class MenuScene: SKScene {
             spinnyNode.lineWidth = 2.5
             
             spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
+            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 1.0),
                                               SKAction.fadeOut(withDuration: 1.0),
                                               SKAction.removeFromParent()]))
         }
+        
+        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateCounting), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateCounting(){
+        let randomX = Int(arc4random_uniform(UInt32(self.frame.height-200))) - Int(self.frame.height/2)
+        let randomY = Int(arc4random_uniform(UInt32(self.frame.width-200))) - Int(self.frame.width/2)
+        let randomNode = SKShapeNode.init(rectOf: CGSize.init(width: 100, height: 100), cornerRadius: 100 * 0.3)
+        randomNode.position = CGPoint(x: randomX, y: randomY)
+        randomNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
+        randomNode.strokeColor = .random()
+        randomNode.alpha = 0.0
+        randomNode.lineWidth = 2.5
+        self.addChild(randomNode)
+        randomNode.run(SKAction.sequence([SKAction.fadeIn(withDuration: 0.5),
+                                          SKAction.wait(forDuration: 1.0),
+                                          SKAction.fadeOut(withDuration: 2.0),
+                                          SKAction.removeFromParent()]))
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -105,6 +123,21 @@ class MenuScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         
+    }
+}
+
+extension CGFloat {
+    static func random() -> CGFloat {
+        return CGFloat(arc4random()) / CGFloat(UInt32.max)
+    }
+}
+
+extension UIColor {
+    static func random() -> UIColor {
+        return UIColor(red:   .random(),
+                       green: .random(),
+                       blue:  .random(),
+                       alpha: 1.0)
     }
 }
 
